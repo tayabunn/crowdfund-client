@@ -39,7 +39,7 @@ export default function Navbar() {
               </>
             ) : null}
             
-            <a href="#" className="border-2 border-primary text-primary px-5 py-2 rounded-full font-bold hover:bg-primary hover:text-white transition-all">Join as Developer</a>
+            <a href="https://github.com/tayabunn/crowdfund-client" target="_blank" rel="noopener noreferrer" className="border-2 border-primary text-primary px-5 py-2 rounded-full font-bold hover:bg-primary hover:text-white transition-all">Join as Developer</a>
           </div>
           <div className="-mr-2 flex items-center md:hidden">
             <button
@@ -74,7 +74,7 @@ export default function Navbar() {
                   <button onClick={logout} className="w-full text-left block px-3 py-3 rounded-md text-base font-medium text-red-500 hover:bg-red-50">Logout</button>
                 </>
               ) : null}
-              <a href="#" className="block px-3 py-3 rounded-md text-base font-bold text-white bg-primary text-center mt-4">Join as Developer</a>
+              <a href="https://github.com/tayabunn/crowdfund-client" target="_blank" rel="noopener noreferrer" className="block px-3 py-3 rounded-md text-base font-bold text-white bg-primary text-center mt-4">Join as Developer</a>
             </div>
           </motion.div>
         )}
