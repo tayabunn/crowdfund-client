@@ -23,6 +23,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       { name: 'My Contributions', href: '/dashboard/contributions', icon: <FileText size={20} /> },
       { name: 'Purchase Credit', href: '/dashboard/purchase-credit', icon: <CreditCard size={20} /> },
       { name: 'Payment History', href: '/dashboard/payment-history', icon: <FileText size={20} /> },
+      { name: 'Profile Settings', href: '/dashboard/profile', icon: <Settings size={20} /> },
     ],
     Creator: [
       { name: 'Home', href: '/dashboard', icon: <Home size={20} /> },
@@ -30,6 +31,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       { name: 'My Campaigns', href: '/dashboard/my-campaigns', icon: <List size={20} /> },
       { name: 'Withdrawals', href: '/dashboard/withdrawals', icon: <CreditCard size={20} /> },
       { name: 'Payment History', href: '/dashboard/payment-history', icon: <FileText size={20} /> },
+      { name: 'Profile Settings', href: '/dashboard/profile', icon: <Settings size={20} /> },
     ],
     Admin: [
       { name: 'Home', href: '/dashboard', icon: <Home size={20} /> },
@@ -37,6 +39,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       { name: 'Manage Campaigns', href: '/dashboard/manage-campaigns', icon: <List size={20} /> },
       { name: 'Withdrawal Requests', href: '/dashboard/withdrawal-requests', icon: <CreditCard size={20} /> },
       { name: 'Reports', href: '/dashboard/reports', icon: <FileText size={20} /> },
+      { name: 'Profile Settings', href: '/dashboard/profile', icon: <Settings size={20} /> },
     ]
   };
 
@@ -100,19 +103,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </div>
             )}
 
-            <div className="flex items-center space-x-3">
-              <div className="text-right hidden md:block">
-                <div className="text-sm font-bold text-gray-800">{user.name}</div>
-                <div className="text-xs text-gray-500">{user.role}</div>
+              <div className="flex items-center space-x-3">
+                <div className="text-right hidden md:block">
+                  <div className="text-sm font-bold text-gray-800">{user.name || 'User'}</div>
+                  <div className="text-xs text-gray-500">{user.role}</div>
+                </div>
+                <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white font-bold overflow-hidden">
+                  {user.photo_url ? (
+                    <img src={user.photo_url} alt="Profile" className="w-full h-full object-cover" />
+                  ) : (
+                    (user.name || 'U').charAt(0).toUpperCase()
+                  )}
+                </div>
               </div>
-              <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white font-bold overflow-hidden">
-                {user.photo_url ? (
-                  <img src={user.photo_url} alt="Profile" className="w-full h-full object-cover" />
-                ) : (
-                  user.name.charAt(0).toUpperCase()
-                )}
-              </div>
-            </div>
           </div>
         </header>
 

@@ -13,10 +13,47 @@ export default function Register() {
     photo_url: '',
     role: 'Supporter'
   });
+  const [file, setFile] = useState<File | null>(null);
   
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: implement register logic
+    setError('');
+    
+    try {
+      let finalPhotoUrl = '';
+      
+      if (file) {
+        const formDataUpload = new FormData();
+        formDataUpload.append('image', file);
+        
+        const imgbbRes = await fetch(
+          `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
+          {
+            method: 'POST',
+            body: formDataUpload,
+          }
+        );
+
+        if (!imgbbRes.ok) {
+          throw new Error('Failed to upload image to ImgBB');
+        }
+
+        const imgbbData = await imgbbRes.json();
+        finalPhotoUrl = imgbbData.data.url;
+      }
+      
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role,
+        photo_url: finalPhotoUrl
+      });
+      
+      login(res.data.token, res.data.user);
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Failed to register. Please try again.');
+    }
   };
 
   const { login } = useAuth();
@@ -64,13 +101,26 @@ export default function Register() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Profile Picture URL</label>
-              <input type="url" className="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="Optional" value={formData.photo_url} onChange={e => setFormData({...formData, photo_url: e.target.value})} />
+              <label className="block text-sm font-bold text-gray-700 uppercase tracking-wide">Profile Image</label>
+              <div className="mt-1 flex items-center">
+                <input 
+                  type="file" 
+                  accept="image/*"
+                  className="block w-full text-sm text-gray-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-md file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-primary/10 file:text-primary
+                    hover:file:bg-primary/20
+                    border border-gray-300 rounded-md py-2 px-3 shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                  onChange={e => setFile(e.target.files?.[0] || null)} 
+                />
+              </div>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700">I want to join as a</label>
-              <select className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md" value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})}>
+              <select className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})}>
                 <option value="Supporter">Supporter (Fund projects)</option>
                 <option value="Creator">Creator (Start projects)</option>
               </select>
