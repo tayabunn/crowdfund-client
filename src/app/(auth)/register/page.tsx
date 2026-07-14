@@ -18,6 +18,20 @@ export default function Register() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    // Email format validation
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    // Password strength validation: Min 8 characters, at least one letter and one number
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+    if (!passwordRegex.test(formData.password)) {
+      setError('Password must be at least 8 characters long and contain both letters and numbers.');
+      return;
+    }
     
     try {
       let finalPhotoUrl = '';
@@ -98,6 +112,9 @@ export default function Register() {
             <div>
               <label className="block text-sm font-medium text-gray-700">Password</label>
               <input type="password" required className="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} />
+              <p suppressHydrationWarning className="mt-1.5 text-xs text-gray-400 leading-normal">
+                Password must be at least 8 characters long and contain both letters and numbers.
+              </p>
             </div>
 
             <div>
@@ -144,7 +161,7 @@ export default function Register() {
               <div className="mt-6">
                 <button
                   type="button"
-                  onClick={handleGoogleSignIn}
+                  onClick={() => handleGoogleSignIn()}
                   className="w-full flex justify-center items-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                 >
                   <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

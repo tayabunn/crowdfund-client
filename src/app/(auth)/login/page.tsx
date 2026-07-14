@@ -12,6 +12,20 @@ export default function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    // Email format validation
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    // Password strength validation: Min 8 characters, at least one letter and one number
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      setError('Password must be at least 8 characters long and contain both letters and numbers.');
+      return;
+    }
     
     try {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
