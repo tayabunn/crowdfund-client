@@ -29,15 +29,15 @@ export default function FaqSection() {
   };
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 transition-colors">
       <div className="w-[90%] mx-auto px-2 sm:px-4">
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
             <HelpCircle size={14} /> Help Center
           </div>
-          <h2 className="text-4xl font-extrabold text-gray-900 mb-4">Frequently Asked Questions</h2>
+          <h2 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-4">Frequently Asked Questions</h2>
           <div className="w-20 h-1 bg-primary mx-auto rounded-full mb-4"></div>
-          <p className="text-gray-500 text-base max-w-lg mx-auto">
+          <p className="text-gray-500 dark:text-gray-400 text-base max-w-lg mx-auto">
             Find answers to common questions about starting and funding projects on Crowdfund.
           </p>
         </div>
@@ -48,13 +48,13 @@ export default function FaqSection() {
             return (
               <div 
                 key={idx}
-                className="bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-primary/20 transition-all overflow-hidden"
+                className="bg-gray-50/50 dark:bg-gray-800/40 rounded-2xl border border-gray-100 dark:border-gray-800 hover:border-primary/30 transition-all overflow-hidden"
               >
                 <button
                   onClick={() => toggleFaq(idx)}
-                  className="w-full px-6 py-5 text-left flex justify-between items-center gap-4 focus:outline-none"
+                  className="w-full px-6 py-5 text-left flex justify-between items-center gap-4 focus:outline-none cursor-pointer"
                 >
-                  <span className="text-base font-bold text-gray-900 group-hover:text-primary transition-colors">
+                  <span className="text-base font-bold text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors">
                     {faq.question}
                   </span>
                   <motion.div
@@ -74,7 +74,7 @@ export default function FaqSection() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.25, ease: 'easeInOut' }}
                     >
-                      <div className="px-6 pb-6 pt-0 text-sm text-gray-600 leading-relaxed border-t border-gray-100/50">
+                      <div className="px-6 pb-6 pt-0 text-sm text-gray-600 dark:text-gray-300 leading-relaxed border-t border-gray-100/50 dark:border-gray-700/50">
                         {faq.answer}
                       </div>
                     </motion.div>

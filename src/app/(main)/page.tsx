@@ -149,7 +149,7 @@ export default function Home() {
       </section>
 
       {/* Top Funded Campaigns */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 transition-colors">
         <div className="w-[90%] mx-auto px-2 sm:px-4">
           <motion.div 
             className="text-center mb-16"
@@ -158,14 +158,14 @@ export default function Home() {
             viewport={{ once: true, margin: "-100px" }}
             variants={itemVariants}
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Top Funded Campaigns</h2>
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Top Funded Campaigns</h2>
             <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
           </motion.div>
 
           {loading ? (
-            <div className="text-center py-12 text-gray-500 font-medium">Loading top campaigns...</div>
+            <div className="text-center py-12 text-gray-500 dark:text-gray-400 font-medium">Loading top campaigns...</div>
           ) : topCampaigns.length === 0 ? (
-            <div className="text-center py-12 text-gray-500 font-medium">No campaigns found.</div>
+            <div className="text-center py-12 text-gray-500 dark:text-gray-400 font-medium">No campaigns found.</div>
           ) : (
             <motion.div 
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -181,11 +181,11 @@ export default function Home() {
                 return (
                   <motion.div 
                     key={campaign._id} 
-                    className="bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden hover:shadow-2xl transition-all group flex flex-col"
+                    className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-lg overflow-hidden hover:shadow-2xl transition-all group flex flex-col"
                     variants={itemVariants}
                     whileHover={{ y: -8 }}
                   >
-                    <div className="h-56 relative overflow-hidden bg-gray-100">
+                    <div className="h-56 relative overflow-hidden bg-gray-100 dark:bg-gray-700">
                       <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10"></div>
                       <img 
                         src={campaign.image_url || "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&q=80"} 
@@ -195,17 +195,17 @@ export default function Home() {
                         alt={campaign.title} 
                         className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" 
                       />
-                      <span className="absolute top-3 right-3 bg-white px-3 py-1 text-xs font-bold text-primary rounded-full shadow-sm z-20">
+                      <span className="absolute top-3 right-3 bg-white/95 dark:bg-gray-900/90 backdrop-blur-xs px-3 py-1 text-xs font-bold text-primary rounded-full shadow-sm z-20">
                         {campaign.category}
                       </span>
                     </div>
                     <div className="p-6 flex flex-col flex-grow">
                       <span className="text-xs font-bold text-primary tracking-wider uppercase mb-2 block">{campaign.category}</span>
-                      <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">{campaign.title}</h3>
-                      <p className="text-gray-500 mb-6 text-sm flex-grow">By {campaign.creator_name}</p>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 line-clamp-2">{campaign.title}</h3>
+                      <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm flex-grow">By {campaign.creator_name}</p>
                       
                       <div className="space-y-3 mt-auto">
-                        <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+                        <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
                           <motion.div 
                             className="bg-primary h-full rounded-full" 
                             initial={{ width: 0 }}
@@ -216,14 +216,14 @@ export default function Home() {
                         </div>
                         <div className="flex justify-between items-center text-sm mb-4">
                           <span className="font-bold text-primary text-base">
-                            {(campaign.amount_raised || 0).toLocaleString()} <span className="text-gray-500 text-sm font-normal">Credits raised</span>
+                            {(campaign.amount_raised || 0).toLocaleString()} <span className="text-gray-500 dark:text-gray-400 text-sm font-normal">Credits raised</span>
                           </span>
-                          <span className="text-gray-500 font-medium">{percentLabel}%</span>
+                          <span className="text-gray-500 dark:text-gray-400 font-medium">{percentLabel}%</span>
                         </div>
                         <div className="flex justify-between items-center text-sm mb-6">
-                          <span className="text-gray-500">Goal: {campaign.funding_goal.toLocaleString()} Credits</span>
+                          <span className="text-gray-500 dark:text-gray-400">Goal: {campaign.funding_goal.toLocaleString()} Credits</span>
                         </div>
-                        <Link href={`/explore/${campaign._id}`} className="block w-full text-center bg-gray-50 text-primary border border-primary/20 py-3 rounded-xl font-bold hover:bg-primary hover:text-white transition-colors">
+                        <Link href={`/explore/${campaign._id}`} className="block w-full text-center bg-gray-50 dark:bg-gray-700/60 text-primary border border-primary/20 py-3 rounded-xl font-bold hover:bg-primary hover:text-white transition-colors">
                           View Campaign
                         </Link>
                       </div>

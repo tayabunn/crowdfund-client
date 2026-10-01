@@ -4,7 +4,7 @@ import { Quote, Sparkles } from 'lucide-react';
 
 export default function CreatorSpotlight() {
   return (
-    <section className="py-20 bg-gray-50/50 overflow-hidden relative">
+    <section className="py-20 bg-gray-50/50 dark:bg-gray-950/60 overflow-hidden relative border-b border-gray-100 dark:border-gray-800 transition-colors">
       <div className="w-[90%] mx-auto px-2 sm:px-4 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           {/* Left: Image card with accent overlays */}
@@ -12,7 +12,7 @@ export default function CreatorSpotlight() {
             <div className="absolute -top-4 -left-4 w-72 h-72 bg-primary/10 rounded-3xl -z-10 blur-xl" />
             <div className="absolute -bottom-4 -right-4 w-72 h-72 bg-secondary/10 rounded-3xl -z-10 blur-xl" />
             
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3] border border-white">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3] border border-white dark:border-gray-800">
               <img 
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80" 
                 alt="Elena Rostova in her greenhouse" 
@@ -32,30 +32,30 @@ export default function CreatorSpotlight() {
               <Sparkles size={14} /> Creator Spotlight
             </div>
             
-            <h2 className="text-4xl font-extrabold text-gray-900 mb-6 leading-tight">
+            <h2 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
               Elena Rostova & The Smart Greenhouse Initiative
             </h2>
 
             <div className="relative mb-8">
               <Quote className="absolute -top-4 -left-6 text-primary/15" size={48} />
-              <p className="text-lg text-gray-600 italic leading-relaxed relative z-10 pl-2">
+              <p className="text-lg text-gray-600 dark:text-gray-300 italic leading-relaxed relative z-10 pl-2">
                 "Raising credits on Crowdfund allowed us to procure advanced automated sensors and bring smart hydroponics to three local schools. The transparency and ease of the platform built immediate trust with our community backers."
               </p>
             </div>
 
             {/* Micro stats grid */}
-            <div className="grid grid-cols-3 gap-6 border-y border-gray-200/60 py-6 mb-8">
+            <div className="grid grid-cols-3 gap-6 border-y border-gray-200/60 dark:border-gray-800 py-6 mb-8">
               <div>
-                <div className="text-2xl font-black text-gray-900">12,500</div>
-                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-1">Credits Goal</div>
+                <div className="text-2xl font-black text-gray-900 dark:text-white">12,500</div>
+                <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1">Credits Goal</div>
               </div>
               <div>
                 <div className="text-2xl font-black text-primary">15,000</div>
-                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-1">Credits Raised</div>
+                <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1">Credits Raised</div>
               </div>
               <div>
                 <div className="text-2xl font-black text-secondary">120%</div>
-                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-1">Percent Funded</div>
+                <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-1">Percent Funded</div>
               </div>
             </div>
 
@@ -68,7 +68,7 @@ export default function CreatorSpotlight() {
               </Link>
               <Link 
                 href="/register" 
-                className="bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 font-extrabold py-3.5 px-8 rounded-2xl text-base transition-all"
+                className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 font-extrabold py-3.5 px-8 rounded-2xl text-base transition-all"
               >
                 Start Your Story
               </Link>

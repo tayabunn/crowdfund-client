@@ -15,33 +15,38 @@ const ThemeContext = createContext<ThemeContextType>({
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = useState<Theme>('light');
-  const [mounted, setMounted] = useState(false);
+
+  const applyTheme = (targetTheme: Theme) => {
+    if (typeof document !== 'undefined') {
+      const root = document.documentElement;
+      if (targetTheme === 'dark') {
+        root.classList.add('dark');
+        document.body.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+        document.body.classList.remove('dark');
+      }
+    }
+  };
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('crowdfund-theme') as Theme | null;
     if (savedTheme) {
       setTheme(savedTheme);
-      if (savedTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
+      applyTheme(savedTheme);
     } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       setTheme('dark');
-      document.documentElement.classList.add('dark');
+      applyTheme('dark');
     }
-    setMounted(true);
   }, []);
 
   const toggleTheme = () => {
-    const newTheme: Theme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('crowdfund-theme', newTheme);
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    setTheme((prevTheme) => {
+      const newTheme: Theme = prevTheme === 'light' ? 'dark' : 'light';
+      localStorage.setItem('crowdfund-theme', newTheme);
+      applyTheme(newTheme);
+      return newTheme;
+    });
   };
 
   return (
@@ -52,3 +57,4 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const useTheme = () => useContext(ThemeContext);
+

@@ -30,16 +30,16 @@ type TestimonialsSectionProps = {
  */
 export const TestimonialCard = ({ quote, authorName, authorTitle, avatarUrl }: Omit<Testimonial, 'id'>) => {
   return (
-    <div className="testimonial-card flex flex-col items-start justify-between p-6 bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-xl hover:border-primary/20 transition-all w-96 flex-shrink-0">
-      <p className="text-gray-600 text-base italic leading-relaxed">"{quote}"</p>
+    <div className="testimonial-card flex flex-col items-start justify-between p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-md hover:shadow-xl hover:border-primary/40 transition-all w-96 flex-shrink-0">
+      <p className="text-gray-600 dark:text-gray-300 text-base italic leading-relaxed">"{quote}"</p>
       <div className="flex items-center gap-4 mt-6">
         <img
           src={avatarUrl}
           alt={authorName}
-          className="w-12 h-12 rounded-full border-2 border-primary/10 object-cover"
+          className="w-12 h-12 rounded-full border-2 border-primary/20 object-cover"
         />
         <div>
-          <h4 className="text-sm font-bold text-gray-900">{authorName}</h4>
+          <h4 className="text-sm font-bold text-gray-900 dark:text-gray-100">{authorName}</h4>
           <p className="text-xs font-semibold text-primary">{authorTitle}</p>
         </div>
       </div>
@@ -85,10 +85,10 @@ export const HorizontalScroller = ({
  */
 export default function TestimonialsSection({ data }: TestimonialsSectionProps) {
   return (
-    <section className="testimonials-section relative flex flex-col items-center gap-12 py-20 w-full overflow-hidden bg-gray-50/50">
+    <section className="testimonials-section relative flex flex-col items-center gap-12 py-20 w-full overflow-hidden bg-gray-50/50 dark:bg-gray-950/60 border-b border-gray-100 dark:border-gray-800 transition-colors">
       <div className="flex flex-col items-center gap-4 text-center z-10 max-w-2xl px-4">
         <h2
-          className="text-4xl font-extrabold text-gray-900 leading-tight"
+          className="text-4xl font-extrabold text-gray-900 dark:text-white leading-tight"
           style={{ 
             opacity: 0, 
             animation: "fadeInUp 0.7s ease-out 0.2s forwards" 
@@ -98,7 +98,7 @@ export default function TestimonialsSection({ data }: TestimonialsSectionProps) 
         </h2>
         <div className="w-20 h-1 bg-primary rounded-full"></div>
         <p
-          className="text-gray-500 text-base max-w-lg mt-2"
+          className="text-gray-500 dark:text-gray-400 text-base max-w-lg mt-2"
           style={{ 
             opacity: 0, 
             animation: "fadeInUp 0.7s ease-out 0.4s forwards" 
