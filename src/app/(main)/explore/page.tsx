@@ -1,8 +1,9 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
+import { useSearchParams } from 'next/navigation';
 
 type Campaign = {
   _id: string;
@@ -15,11 +16,21 @@ type Campaign = {
   category: string;
 };
 
-export default function ExploreCampaigns() {
+function ExploreCampaignsContent() {
+  const searchParams = useSearchParams();
+  const initialCategory = searchParams.get('category') || 'All Categories';
+
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('All Categories');
+  const [category, setCategory] = useState(initialCategory);
+
+  useEffect(() => {
+    const cat = searchParams.get('category');
+    if (cat) {
+      setCategory(cat);
+    }
+  }, [searchParams]);
   const [minGoal, setMinGoal] = useState('');
   const [maxGoal, setMaxGoal] = useState('');
   const [deadline, setDeadline] = useState('active'); // 'active' | 'expired' | 'all'
@@ -81,7 +92,7 @@ export default function ExploreCampaigns() {
 
   return (
     <div className="bg-gray-50 min-h-screen py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-[90%] mx-auto px-2 sm:px-4">
         
         <motion.div 
           className="text-center mb-12"
@@ -307,5 +318,13 @@ export default function ExploreCampaigns() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function ExploreCampaigns() {
+  return (
+    <Suspense fallback={<div className="text-center py-24 text-gray-500 font-sans">Loading campaigns...</div>}>
+      <ExploreCampaignsContent />
+    </Suspense>
   );
 }
