@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import axios from 'axios';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Receipt } from 'lucide-react';
+import ReceiptModal from '@/components/ReceiptModal';
 
 type Contribution = {
   _id: string;
@@ -11,6 +12,7 @@ type Contribution = {
   campaign_title: string;
   creator_name: string;
   contribution_amount: number;
+  reward_title?: string;
   status: 'pending' | 'approved' | 'rejected';
   createdAt: string;
 };
@@ -22,6 +24,7 @@ export default function MyContributions() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalContributions, setTotalContributions] = useState(0);
+  const [activeReceipt, setActiveReceipt] = useState<any>(null);
   const limit = 5;
 
   const fetchContributions = async () => {
@@ -74,6 +77,7 @@ export default function MyContributions() {
                     <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Amount</th>
                     <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Date</th>
                     <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Status</th>
+                    <th className="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Action</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-100">
@@ -96,6 +100,22 @@ export default function MyContributions() {
                         }`}>
                           {c.status}
                         </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right">
+                        <button
+                          onClick={() => setActiveReceipt({
+                            id: c._id,
+                            campaignTitle: c.campaign_title,
+                            amount: c.contribution_amount,
+                            backerName: user.name || 'Supporter',
+                            date: new Date(c.createdAt).toLocaleDateString(),
+                            rewardTitle: c.reward_title
+                          })}
+                          className="inline-flex items-center space-x-1 px-3 py-1.5 bg-gray-100 hover:bg-primary hover:text-white text-gray-700 text-xs font-semibold rounded-lg transition shadow-xs cursor-pointer border-none"
+                        >
+                          <Receipt size={14} />
+                          <span>Receipt</span>
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -135,6 +155,13 @@ export default function MyContributions() {
           </div>
         )}
       </div>
+
+      {activeReceipt && (
+        <ReceiptModal
+          receiptData={activeReceipt}
+          onClose={() => setActiveReceipt(null)}
+        />
+      )}
     </div>
   );
 }
