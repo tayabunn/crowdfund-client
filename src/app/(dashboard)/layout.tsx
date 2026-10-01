@@ -299,7 +299,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         {/* 6. Sections Based on Routes */}
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
-          {children}
+          <div className="w-[90%] mx-auto">
+            {children}
+          </div>
         </main>
 
         {/* 7. Footer */}
