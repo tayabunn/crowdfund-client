@@ -30,7 +30,7 @@ export default function FaqSection() {
 
   return (
     <section className="py-20 bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-[90%] mx-auto px-2 sm:px-4">
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
             <HelpCircle size={14} /> Help Center
