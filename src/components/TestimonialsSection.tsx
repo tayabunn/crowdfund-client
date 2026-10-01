@@ -108,7 +108,7 @@ export default function TestimonialsSection({ data }: TestimonialsSectionProps) 
         </p>
       </div>
 
-      <div className="flex flex-col gap-6 z-10 w-full max-w-6xl">
+      <div className="flex flex-col gap-6 z-10 w-[90%] mx-auto">
         {data.rows.map((row) => (
           <HorizontalScroller key={row.id} speed={row.speed} direction={row.direction}>
             {row.testimonials.map((t) => (
