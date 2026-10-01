@@ -16,7 +16,7 @@ export default function Navbar() {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-[90%] mx-auto px-2 sm:px-4">
         <div className="flex justify-between h-20">
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0 flex items-center">
