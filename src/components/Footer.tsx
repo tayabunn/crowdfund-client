@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white pt-16 pb-8 border-t border-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-[90%] mx-auto px-2 sm:px-4">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8">
           
           <div className="md:col-span-5 flex flex-col">
@@ -30,33 +30,33 @@ export default function Footer() {
           <div className="md:col-span-2">
             <h4 className="text-lg font-bold mb-6 text-white uppercase tracking-wider text-sm">Fundraise for</h4>
             <ul className="space-y-3">
-              <li><Link href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Medical</Link></li>
-              <li><Link href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Emergency</Link></li>
-              <li><Link href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Memorial</Link></li>
-              <li><Link href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Education</Link></li>
-              <li><Link href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Nonprofit</Link></li>
+              <li><Link href="/explore?category=Health" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Medical</Link></li>
+              <li><Link href="/explore?category=Community" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Emergency</Link></li>
+              <li><Link href="/explore?category=Community" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Memorial</Link></li>
+              <li><Link href="/explore?category=Technology" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Education</Link></li>
+              <li><Link href="/explore?category=Community" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Nonprofit</Link></li>
             </ul>
           </div>
 
           <div className="md:col-span-2">
             <h4 className="text-lg font-bold mb-6 text-white uppercase tracking-wider text-sm">Learn More</h4>
             <ul className="space-y-3">
-              <li><Link href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">How CrowdFund works</Link></li>
-              <li><Link href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Why CrowdFund</Link></li>
-              <li><Link href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Common questions</Link></li>
-              <li><Link href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Success stories</Link></li>
-              <li><Link href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Supported countries</Link></li>
+              <li><Link href="/learn/how-it-works" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">How CrowdFund works</Link></li>
+              <li><Link href="/learn/why-crowdfund" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Why CrowdFund</Link></li>
+              <li><Link href="/learn/faq" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Common questions</Link></li>
+              <li><Link href="/learn/success-stories" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Success stories</Link></li>
+              <li><Link href="/learn/supported-countries" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Supported countries</Link></li>
             </ul>
           </div>
 
           <div className="md:col-span-3">
             <h4 className="text-lg font-bold mb-6 text-white uppercase tracking-wider text-sm">Resources</h4>
             <ul className="space-y-3">
-              <li><Link href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Help center</Link></li>
-              <li><Link href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Blog</Link></li>
-              <li><Link href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">GoFundMe Stories</Link></li>
-              <li><Link href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Press center</Link></li>
-              <li><Link href="#" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Careers</Link></li>
+              <li><Link href="/resources/help-center" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Help center</Link></li>
+              <li><Link href="/resources/blog" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Blog</Link></li>
+              <li><Link href="/resources/gofundme-stories" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">GoFundMe Stories</Link></li>
+              <li><Link href="/resources/press-center" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Press center</Link></li>
+              <li><Link href="/resources/careers" className="text-gray-400 hover:text-primary transition-colors text-sm font-medium">Careers</Link></li>
             </ul>
           </div>
         </div>
@@ -64,10 +64,10 @@ export default function Footer() {
         <div className="border-t border-gray-800 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
           <p>&copy; {new Date().getFullYear()} CrowdFund. All rights reserved.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link href="#" className="hover:text-primary transition-colors">Terms</Link>
-            <Link href="#" className="hover:text-primary transition-colors">Privacy Notice</Link>
-            <Link href="#" className="hover:text-primary transition-colors">Legal</Link>
-            <Link href="#" className="hover:text-primary transition-colors">Accessibility Statement</Link>
+            <Link href="/legal/terms" className="hover:text-primary transition-colors">Terms</Link>
+            <Link href="/legal/privacy-notice" className="hover:text-primary transition-colors">Privacy Notice</Link>
+            <Link href="/legal/general" className="hover:text-primary transition-colors">Legal</Link>
+            <Link href="/legal/accessibility" className="hover:text-primary transition-colors">Accessibility Statement</Link>
           </div>
         </div>
       </div>
