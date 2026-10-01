@@ -17,6 +17,7 @@ import {
 } from '@/components/base-ui/alert-dialog';
 import { Checkbox } from '@/components/base-ui/checkbox';
 import { Label } from '@/components/base-ui/label';
+import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
 type ReportType = {
   _id: string;
@@ -36,6 +37,7 @@ export default function Reports() {
   const [loading, setLoading] = useState(true);
   const [actionItem, setActionItem] = useState<{ type: 'resolve' | 'delete'; id: string; campaignId?: string; title: string } | null>(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const fetchReports = async () => {
     if (!token) return;
@@ -54,6 +56,7 @@ export default function Reports() {
   };
 
   useEffect(() => {
+    setMounted(true);
     if (token && user?.role === 'Admin') {
       fetchReports();
     }
@@ -81,10 +84,18 @@ export default function Reports() {
     if (!token) return;
     try {
       // 1. Delete the campaign
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/campaigns/${campaignId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      try {
+        await axios.delete(
+          `${process.env.NEXT_PUBLIC_API_URL}/campaigns/${campaignId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      } catch (deleteErr: any) {
+        // If the campaign is already deleted (404), we can proceed to resolve the report
+        if (deleteErr.response?.status !== 404) {
+          throw deleteErr;
+        }
+        console.log("Campaign already deleted, proceeding to resolve report.");
+      }
       
       // 2. Resolve the report
       await axios.patch(
@@ -102,6 +113,25 @@ export default function Reports() {
       setActionItem(null);
     }
   };
+
+  const resolvedCount = reports.filter(r => r.status === 'resolved').length;
+  const pendingCount = reports.filter(r => r.status === 'pending').length;
+
+  const getReasonData = () => {
+    const counts: { [key: string]: number } = {};
+    reports.forEach(r => {
+      counts[r.reason] = (counts[r.reason] || 0) + 1;
+    });
+    
+    const colors = ['#f59e0b', '#ef4444', '#3b82f6', '#8b5cf6', '#10b981', '#ec4899'];
+    return Object.keys(counts).map((reason, idx) => ({
+      name: reason,
+      value: counts[reason],
+      color: colors[idx % colors.length]
+    }));
+  };
+
+  const reasonData = getReasonData();
 
   return (
     <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
@@ -125,78 +155,143 @@ export default function Reports() {
             <p className="text-sm text-gray-400">All submitted campaigns are currently clear.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead>
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Reported Campaign</th>
-                  <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Reporter</th>
-                  <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Reason</th>
-                  <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Details</th>
-                  <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Date</th>
-                  <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-100">
-                {reports.map((report) => (
-                  <tr key={report._id} className="hover:bg-gray-50/50 transition-colors font-sans">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                      {report.campaign_title}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <div className="font-semibold text-gray-700">{report.reporter_name}</div>
-                      <div className="text-[11px] text-gray-400">{report.reporter_email}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-red-600">
-                      {report.reason}
-                    </td>
-                    <td className="px-6 py-4 text-xs text-gray-500 max-w-xs break-words">
-                      {report.details}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-500 font-medium">
-                      {new Date(report.createdAt).toLocaleDateString(undefined, { dateStyle: 'medium' })}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2.5 py-1 inline-flex text-xs leading-5 font-bold rounded-full uppercase tracking-wider ${
-                        report.status === 'resolved' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                      }`}>
-                        {report.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex space-x-3 items-center">
-                        {report.status === 'pending' ? (
-                          <>
-                            <button 
-                              type="button"
-                              onClick={() => handleResolve(report._id)}
-                              className="flex items-center text-primary hover:text-primary-dark transition-colors cursor-pointer border-none bg-transparent font-bold text-xs" 
-                              title="Mark as Resolved"
-                            >
-                              <CheckCircle size={16} className="mr-1" /> Resolve
-                            </button>
-                            <button 
-                              type="button"
-                              onClick={() => {
-                                setActionItem({ type: 'delete', id: report._id, campaignId: report.campaign_id, title: report.campaign_title });
-                                setIsConfirmed(false);
-                              }}
-                              className="flex items-center text-red-655 hover:text-red-850 bg-red-50 hover:bg-red-100 border border-red-200 hover:border-red-300 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer font-bold text-xs shadow-xs text-red-600" 
-                              title="Delete Fraudulent Campaign"
-                            >
-                              <Trash2 size={14} className="mr-1.5" /> Delete Campaign
-                            </button>
-                          </>
-                        ) : (
-                          <span className="text-xs text-gray-400 font-bold">No Action Needed</span>
-                        )}
+          <div>
+            {/* Visual Analytics Charts */}
+            {mounted && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 font-sans">
+                {/* Flagged Reasons Chart */}
+                <div className="bg-gray-50/50 p-5 rounded-2xl border border-gray-100">
+                  <h3 className="text-gray-700 font-bold text-sm mb-3">Flagged Reasons</h3>
+                  <div className="h-44">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={reasonData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={45}
+                          outerRadius={65}
+                          paddingAngle={3}
+                          dataKey="value"
+                        >
+                          {reasonData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip formatter={(value) => `${value} reports`} />
+                        <Legend verticalAlign="middle" align="right" layout="vertical" wrapperStyle={{ fontSize: '11px' }} />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* Resolution Progress Bar */}
+                <div className="bg-gray-50/50 p-5 rounded-2xl border border-gray-100 flex flex-col justify-center">
+                  <h3 className="text-gray-700 font-bold text-sm mb-4">Resolution Progress</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex justify-between text-xs font-semibold text-gray-500 mb-1">
+                        <span>Resolved Reports</span>
+                        <span>{resolvedCount} / {reports.length} ({Math.round((resolvedCount / reports.length) * 100)}%)</span>
                       </div>
-                    </td>
+                      <div className="w-full bg-gray-200 rounded-full h-2.5">
+                        <div className="bg-green-500 h-2.5 rounded-full" style={{ width: `${(resolvedCount / reports.length) * 100}%` }}></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-xs font-semibold text-gray-500 mb-1">
+                        <span>Pending Investigation</span>
+                        <span>{pendingCount} / {reports.length} ({Math.round((pendingCount / reports.length) * 100)}%)</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2.5">
+                        <div className="bg-red-500 h-2.5 rounded-full" style={{ width: `${(pendingCount / reports.length) * 100}%` }}></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead>
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Reported Campaign</th>
+                    <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Reporter</th>
+                    <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Reason</th>
+                    <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Details</th>
+                    <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Date</th>
+                    <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider font-sans">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-100">
+                  {reports.map((report) => (
+                    <tr key={report._id} className="hover:bg-gray-50/50 transition-colors font-sans">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+                        <a
+                          href={`/explore/${report.campaign_id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-emerald-600 hover:text-emerald-700 hover:underline transition-all"
+                        >
+                          {report.campaign_title}
+                        </a>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <div className="font-semibold text-gray-700">{report.reporter_name}</div>
+                        <div className="text-[11px] text-gray-400">{report.reporter_email}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-red-600">
+                        {report.reason}
+                      </td>
+                      <td className="px-6 py-4 text-xs text-gray-500 max-w-xs break-words">
+                        {report.details}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-500 font-medium">
+                        {new Date(report.createdAt).toLocaleDateString(undefined, { dateStyle: 'medium' })}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-2.5 py-1 inline-flex text-xs leading-5 font-bold rounded-full uppercase tracking-wider ${
+                          report.status === 'resolved' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                        }`}>
+                          {report.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div className="flex space-x-3 items-center">
+                          {report.status === 'pending' ? (
+                            <>
+                              <button 
+                                type="button"
+                                onClick={() => handleResolve(report._id)}
+                                className="flex items-center text-primary hover:text-primary-dark transition-colors cursor-pointer border-none bg-transparent font-bold text-xs" 
+                                title="Mark as Resolved"
+                              >
+                                <CheckCircle size={16} className="mr-1" /> Resolve
+                              </button>
+                              <button 
+                                type="button"
+                                onClick={() => {
+                                  setActionItem({ type: 'delete', id: report._id, campaignId: report.campaign_id, title: report.campaign_title });
+                                  setIsConfirmed(false);
+                                }}
+                                className="flex items-center text-red-655 hover:text-red-850 bg-red-50 hover:bg-red-100 border border-red-200 hover:border-red-300 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer font-bold text-xs shadow-xs text-red-600" 
+                                title="Delete Fraudulent Campaign"
+                              >
+                                <Trash2 size={14} className="mr-1.5" /> Delete Campaign
+                              </button>
+                            </>
+                          ) : (
+                            <span className="text-xs text-gray-400 font-bold">No Action Needed</span>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>
