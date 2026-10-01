@@ -1,7 +1,7 @@
 "use client";
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
-import { Home, List, PlusCircle, CreditCard, Users, FileText, Settings, Bell, LogOut, Check, CheckCircle } from 'lucide-react';
+import { Home, List, PlusCircle, CreditCard, Users, FileText, Settings, Bell, LogOut, Check, CheckCircle, Bookmark } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
@@ -128,6 +128,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     Supporter: [
       { name: 'Home', href: '/dashboard', icon: <Home size={20} /> },
       { name: 'Explore Campaigns', href: '/explore', icon: <List size={20} /> },
+      { name: 'Saved Watchlist', href: '/dashboard/saved-campaigns', icon: <Bookmark size={20} /> },
       { name: 'My Contributions', href: '/dashboard/contributions', icon: <FileText size={20} /> },
       { name: 'Approved Contributions', href: '/dashboard/approved-contributions', icon: <CheckCircle size={20} /> },
       { name: 'Purchase Credit', href: '/dashboard/purchase-credit', icon: <CreditCard size={20} /> },
@@ -138,6 +139,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       { name: 'Home', href: '/dashboard', icon: <Home size={20} /> },
       { name: 'Add New Campaign', href: '/dashboard/add-campaign', icon: <PlusCircle size={20} /> },
       { name: 'My Campaigns', href: '/dashboard/my-campaigns', icon: <List size={20} /> },
+      { name: 'Saved Watchlist', href: '/dashboard/saved-campaigns', icon: <Bookmark size={20} /> },
       { name: 'Withdrawals', href: '/dashboard/withdrawals', icon: <CreditCard size={20} /> },
       { name: 'Payment History', href: '/dashboard/payment-history', icon: <FileText size={20} /> },
       { name: 'Profile Settings', href: '/dashboard/profile', icon: <Settings size={20} /> },
