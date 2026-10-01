@@ -104,12 +104,14 @@ export default function MyContributions() {
                       <td className="px-6 py-4 whitespace-nowrap text-right">
                         <button
                           onClick={() => setActiveReceipt({
-                            id: c._id,
+                            transactionId: c._id,
                             campaignTitle: c.campaign_title,
-                            amount: c.contribution_amount,
-                            backerName: user.name || 'Supporter',
-                            date: new Date(c.createdAt).toLocaleDateString(),
-                            rewardTitle: c.reward_title
+                            creatorName: c.creator_name,
+                            supporterName: user.name || 'Supporter',
+                            supporterEmail: user.email || '',
+                            credits: c.contribution_amount,
+                            rewardTitle: c.reward_title,
+                            date: c.createdAt
                           })}
                           className="inline-flex items-center space-x-1 px-3 py-1.5 bg-gray-100 hover:bg-primary hover:text-white text-gray-700 text-xs font-semibold rounded-lg transition shadow-xs cursor-pointer border-none"
                         >
@@ -156,12 +158,11 @@ export default function MyContributions() {
         )}
       </div>
 
-      {activeReceipt && (
-        <ReceiptModal
-          receiptData={activeReceipt}
-          onClose={() => setActiveReceipt(null)}
-        />
-      )}
+      <ReceiptModal
+        isOpen={!!activeReceipt}
+        onClose={() => setActiveReceipt(null)}
+        data={activeReceipt}
+      />
     </div>
   );
 }
