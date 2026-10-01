@@ -179,7 +179,7 @@ export default function CampaignDetailsPage() {
 
   if (!campaign) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-16 text-center">
+      <div className="w-[90%] mx-auto px-4 py-16 text-center">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Campaign Not Found</h2>
         <p className="text-gray-600 mb-8">The campaign you are looking for does not exist or has been removed.</p>
         <Link href="/explore" className="inline-flex items-center text-primary font-bold hover:underline">
@@ -204,7 +204,7 @@ export default function CampaignDetailsPage() {
   return (
     <div className="bg-gray-50 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
       <ToastContainer position="top-right" autoClose={3000} />
-      <div className="max-w-7xl mx-auto">
+      <div className="w-[90%] mx-auto">
         {/* Back navigation */}
         <div className="mb-6">
           <Link href="/explore" className="inline-flex items-center text-gray-600 hover:text-primary font-semibold transition-colors">
