@@ -258,7 +258,7 @@ export default function PurchaseCredit() {
   if (user?.role !== 'Supporter') return <div className="p-6 text-red-500">Unauthorized</div>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="w-[90%] mx-auto px-2 sm:px-4">
       <ToastContainer position="top-right" autoClose={3000} />
       
       <section className="flex flex-col items-center gap-10 py-10">
