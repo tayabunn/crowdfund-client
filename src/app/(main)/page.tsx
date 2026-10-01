@@ -110,7 +110,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/35 z-10" />
 
               {/* Slide Content */}
-              <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center z-20">
+              <div className="relative w-[90%] mx-auto px-2 sm:px-4 h-full flex items-center z-20">
                 <div className="max-w-3xl text-left text-white">
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -150,7 +150,7 @@ export default function Home() {
 
       {/* Top Funded Campaigns */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-[90%] mx-auto px-2 sm:px-4">
           <motion.div 
             className="text-center mb-16"
             initial="hidden"
@@ -309,7 +309,7 @@ export default function Home() {
 
       {/* How it Works Section */}
       <section className="py-24 bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="w-[90%] mx-auto px-2 sm:px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -353,7 +353,7 @@ export default function Home() {
       
       {/* Platform Impact in Numbers */}
       <section className="py-20 bg-primary text-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="w-[90%] mx-auto px-2 sm:px-4 relative">
           <motion.div 
             className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
             variants={containerVariants}
