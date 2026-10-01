@@ -62,15 +62,6 @@ export default function Navbar() {
                 </button>
               </>
             ) : null}
-            
-            <a 
-              href="https://github.com/tayabunn/crowdfund-client" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="border-2 border-primary text-primary px-4 py-1.5 rounded-full font-bold hover:bg-primary hover:text-white transition-all text-xs"
-            >
-              Developer Hub
-            </a>
           </div>
 
           <div className="-mr-2 flex items-center gap-2 md:hidden">
@@ -122,9 +113,6 @@ export default function Navbar() {
                   </button>
                 </>
               ) : null}
-              <a href="https://github.com/tayabunn/crowdfund-client" target="_blank" rel="noopener noreferrer" className="block px-3 py-3 rounded-md text-base font-bold text-white bg-primary text-center mt-4">
-                Developer Hub
-              </a>
             </div>
           </motion.div>
         )}
