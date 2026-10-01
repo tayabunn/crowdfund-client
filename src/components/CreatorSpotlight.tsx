@@ -5,7 +5,7 @@ import { Quote, Sparkles } from 'lucide-react';
 export default function CreatorSpotlight() {
   return (
     <section className="py-20 bg-gray-50/50 overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="w-[90%] mx-auto px-2 sm:px-4 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           {/* Left: Image card with accent overlays */}
           <div className="lg:w-1/2 w-full relative">
